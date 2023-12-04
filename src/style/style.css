@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Exo:wght@300&display=swap');
+
+body::-webkit-scrollbar{
+  display: none;
+}
+
+* {
+  font-family: "Noto Sans Thai Looped", sans-serif;
+}
+
+*::selection{
+  background: rgb(249 115 22);
+  color: white;
+}
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+/* https://stackoverflow.com/questions/20937475/remove-datalist-dropdown-arrow-in-chrome */
+input[type="search"]::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}
+
+nav img{
+  animation-name: spin;
+  animation-duration: 5.2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+nav h1 , #show-react , footer h1{
+  font-family: 'Exo', sans-serif !important;
+}
+
+nav img:hover{
+  filter: drop-shadow(0 0 12px rgb(103 232 249));
+}
+
+#temperature p, #coordinates p , #wind p {
+  margin-block: 6px;
+  font-weight: bold;
+}
+
+#temperature h3, #coordinates h3 , #wind h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
