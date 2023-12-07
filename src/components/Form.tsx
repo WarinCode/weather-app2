@@ -1,4 +1,3 @@
-import axios, { AxiosResponse } from "axios";
 import {
   FC,
   JSX,
@@ -11,7 +10,8 @@ import {
   MutableRefObject,
 } from "react";
 import Options from "./Options";
-import { Cities } from "../index";
+import { Cities , List } from "../index";
+import Data from "../data/data.json"
 
 import openweatherLogo from "../assets/openweather.png";
 
@@ -23,46 +23,42 @@ import { byIso } from "country-code-lookup";
 interface FormProps {
   city: string;
   setCity: Dispatch<SetStateAction<string>>;
-  status: boolean;
-  setStatus: Dispatch<SetStateAction<boolean>>;
+  isSubmit: boolean;
+  setIsSubmit: Dispatch<SetStateAction<boolean>>;
   loading: boolean;
   inputRef: MutableRefObject<HTMLInputElement>;
   numberOfSearches:number;
-  searching:number;
-  setSearching: Dispatch<SetStateAction<number>>;
 }
 
 const Form: FC<FormProps> = ({
   city,
   setCity,
-  // status,
-  setStatus,
+  setIsSubmit,
   loading,
   inputRef,
   numberOfSearches,
-  searching,
-  setSearching
 }): JSX.Element => {
-  const [list, setList] = useState<Cities[]>([]);
-
+  const [list, setList] = useState<List[]>([]);
+  
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setCity(e.target.value);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    setStatus(true);
-    setSearching((searching + 1) * Math.random());
+    setIsSubmit(true);
   };
 
-  useEffect((): void => {
-    (async (): Promise<void> => {
-      const response: AxiosResponse<Cities[]> = await axios.get(
-        `/src/data/current.city.list.json`
-      );
-      setList(response.data.slice(0, 2001));
-    })();
-  }, []);
+  useEffect(() => {
+    const data:List[] = Data.map((item:Cities):List => {
+      return {
+        name: item.name,
+        country: item.country,
+        id: item.id
+      }
+    });
+    setList(data);
+  } , []);
 
   return (
     <form
@@ -74,11 +70,11 @@ const Form: FC<FormProps> = ({
         alt={openweatherLogo.toString()}
         className="w-4/12 mx-auto"
       />
-      <header className="text-3xl text-center my-4 text-orange-400">
+      <header className="text-3xl text-center my-4 text-orange-400 md:text-2xl md:px-2 sm:text-xl sm:px-2">
         ค้นหาสภาพอากาศ ทุกๆสถานที่บนโลก
       </header>
-      <div>
-        <label className="me-2 text-xl" htmlFor="cityName">
+      <div className="w-full text-center">
+        <label className="me-2 text-xl md:hidden" htmlFor="cityName">
           <div className="inline-flex items-center">
             <FaTreeCity className="w-6 h-6" />
             <p className="ms-1">ชื่อเมือง : </p>
@@ -88,22 +84,22 @@ const Form: FC<FormProps> = ({
           type="search"
           list="list"
           id="cityName"
-          className="text-slate-300 border-b border-b-1.5 text-xl capitalize outline-none text-center bg-transparent focus:border-b-orange-500 ease duration-300 py-1 caret-orange-500 select-auto"
+          className="text-slate-300 border-b border-b-1.5 text-xl capitalize outline-none text-center bg-transparent focus:border-b-orange-500 ease duration-300 py-1 caret-orange-500 select-auto md:w-3/5 sm:w-3/4"
           defaultValue={city}
           placeholder="โปรดพิมพ์ชื่อเมือง"
           onChange={(e: ChangeEvent<HTMLInputElement>): void => handleChange(e)}
-          
           spellCheck={false}
           ref={inputRef}
         />
         <datalist id="list">
           {list.map(
-            (val: Cities): JSX.Element => (
+            (item: List): JSX.Element => (
               <Options
-                value={val.name}
-                key={val.id}
-                content={`ประเทศ ${byIso(val.country)?.country} เมือง ${
-                  val.name
+                value={item.name}
+                key={item.id}
+                id={String(item.id)}
+                content={`ประเทศ ${byIso(item.country)?.country} เมือง ${
+                  item.name
                 }`}
               />
             )
@@ -113,7 +109,7 @@ const Form: FC<FormProps> = ({
       {(loading && numberOfSearches > 1) ? (
         <button
           type="submit"
-          className="mt-8 h-12 w-60 bg-orange-900	 text-neutral-50 rounded-3xl font-bold flex items-center justify-center"
+          className="mt-8 h-12 w-60 bg-orange-900	 text-neutral-50 rounded-3xl font-bold flex items-center justify-center sm:w-3/5 sm:h-10"
           disabled
         >
           <AiOutlineLoading3Quarters className="text-2xl me-2 animate-spin" />
@@ -122,7 +118,7 @@ const Form: FC<FormProps> = ({
       ) : (
         <button
           type="submit"
-          className="mt-8 h-12 w-60 bg-orange-500	 text-neutral-50 rounded-3xl font-bold hover:bg-orange-600 linear duration-150 flex items-center justify-center active:scale-90"
+          className="mt-8 h-12 w-60 bg-orange-500	 text-neutral-50 rounded-3xl font-bold hover:bg-orange-600 linear duration-150 flex items-center justify-center active:scale-90 sm:w-3/5 sm:h-10"
         >
           <IoMdSearch className="text-2xl me-1" />
           <p>ค้นหา</p>

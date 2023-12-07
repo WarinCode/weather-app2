@@ -45,7 +45,7 @@ const Content = (): JSX.Element => {
     return typeof variable === "undefined" || typeof variable !== "number" ? (
       ""
     ) : (
-      <p>
+      <p className="sm:text-sm">
         {content} : {variable}{unit}
       </p>
     );
@@ -55,7 +55,7 @@ const Content = (): JSX.Element => {
 
   return (
     <section className="flex flex-col items-center justify-center mt-16 w-4/5 h-max border-none rounded-lg shadow-2xl mx-auto bg-gray-900 text-center">
-      <header className="text-3xl text-center mt-12 mb-4 ">
+      <header className="text-3xl text-center mt-12 mb-4 md:text-2xl sm:text-xl sm:px-4">
         <ReactCountryFlag
           countryCode={country}
           className="text-4xl me-2"
@@ -64,28 +64,28 @@ const Content = (): JSX.Element => {
         {countryName}
         <p className="text-yellow-300 inline">{isoCode}</p> - {name}
       </header>
-      <h2 className="text-2xl mb-6 text-cyan-400">{weather[0].description}</h2>
-      <div className="w-full p-4 grid grid-cols-2 grid-cols-2 place-items-center gap-y-12">
+      <h2 className="text-2xl mb-6 text-cyan-400 md:text-2xl sm:text-xl">{weather[0].description}</h2>
+      <div className="w-full h-max p-4 grid sm:flex sm:flex-col md:flex md:flex-col place-items-center gap-y-12">
         <div
-          className="w-10/12 h-64 p-7 border-4 text-start rounded-xl bg-gradient-to-r from-orange-500 to-amber-400 text-stone-950 cursor-default shadow-2xl"
+          className="w-10/12 h-max p-7 border-4 text-start rounded-xl bg-gradient-to-r from-orange-500 to-amber-400 text-stone-950 cursor-default shadow-2xl"
           id="temperature"
         >
           <div className="flex items-center justify-center">
             <CiTempHigh className="w-8 h-8" />
             <h3>อุณหภูมิ</h3>
           </div>
-          <hr className="w-3/4 mx-auto mb-3 border-slate-950" />
-          <p>
+          <hr className="w-3/4 mx-auto h-max mb-3 border-slate-950" />
+          <p className="sm:text-sm">
             อุณหภูมิตอนนี้ : {covertTempCelsius(temp)}°C , {temp}°K
           </p>
-          <p>
+          <p className="sm:text-sm">
             อุณหภูมิต่ำสุด : {covertTempCelsius(temp_min)}°C , {temp_min}°K
           </p>
-          <p>
+          <p className="sm:text-sm">
             อุณหภูมิสูงสุด : {covertTempCelsius(temp_max)}°C , {temp_max}°K
           </p>
-          <p>ความชื้น : {humidity}% </p>
-          <p>ความดัน : {pressure} hPa</p>
+          <p className="sm:text-sm">ความชื้น : {humidity}% </p>
+          <p className="sm:text-sm">ความดัน : {pressure} hPa</p>
         </div>
         <div
           className="w-9/12 h-max p-7 border-4 text-start rounded-xl bg-gradient-to-r from-emerald-700 to-emerald-400 text-stone-950 cursor-default shadow-2xl"
@@ -96,8 +96,8 @@ const Content = (): JSX.Element => {
             <h3>พิกัด</h3>
           </div>
           <hr className="w-3/4 mx-auto mb-3 border-slate-950" />
-          <p>ลองจิจูด : {lon}</p>
-          <p>ละติจูด : {lat}</p>
+          <p className="sm:text-sm">ลองจิจูด : {lon}</p>
+          <p className="sm:text-sm">ละติจูด : {lat}</p>
         </div>
         <div
           className="w-9/12 h-max p-7 border-4 text-start col-span-2 rounded-xl bg-gradient-to-r from-teal-500 to-teal-200 text-stone-950 cursor-default shadow-2xl mb-12"
@@ -108,7 +108,7 @@ const Content = (): JSX.Element => {
             <h3>ลม</h3>
           </div>
           <hr className="w-3/4 mx-auto mb-3 border-slate-950" />
-          <p>ความเร็วลม : {speed} m/s</p>
+          <p className="sm:text-sm">ความเร็วลม : {speed} m/s</p>
           {showContent(gust , "ลมกระโชก" , " m/s")}
           {showContent(deg , "ทิศทางลม" , " deg")}
           {showContent(clounds?.all , "เมฆปกคลุม" , "%")}

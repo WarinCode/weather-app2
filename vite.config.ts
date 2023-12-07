@@ -13,5 +13,11 @@ export default defineConfig(({ mode }) => {
       'process.env.API_KEY': JSON.stringify(env.API_KEY)
     },
     plugins: [react()],
+    resolve: {
+      alias: {
+        "node-fetch" : "node-fetch/lib/index.js",
+        "stream" : "stream-browserify"
+      },
+    }
   }
 })

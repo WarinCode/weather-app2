@@ -1,4 +1,4 @@
-import { JSX, FC, ReactNode, useEffect } from "react";
+import { JSX, FC, ReactNode, useEffect, Dispatch, SetStateAction } from "react";
 import Swal from "sweetalert2";
 import withReactContent, { ReactSweetAlert } from "sweetalert2-react-content";
 const MySwal: ReactSweetAlert = withReactContent(Swal);
@@ -8,8 +8,13 @@ interface NotFoundProps {
   children: ReactNode;
   src: string;
   isError: boolean;
+  setIsError: Dispatch<SetStateAction<boolean>>;
   loading: boolean;
-  searching: number;
+  isSubmit: boolean;
+  setIsSubmit: Dispatch<SetStateAction<boolean>>;
+  loadTime: (delay: number) => void;
+  clearValue: () => void;
+  statusCode: number;
 }
 
 const showError = (): void => {
@@ -31,12 +36,25 @@ const NotFound: FC<NotFoundProps> = ({
   children,
   src,
   isError,
+  setIsError,
   loading,
-  searching,
+  isSubmit,
+  setIsSubmit,
+  loadTime,
+  clearValue,
+  statusCode
 }): JSX.Element => {
+
   useEffect((): void => {
-    isError && showError();
-  }, [searching]);
+    loadTime(2000);
+    if(!isError){ 
+      setIsError(false);
+    } else {
+      statusCode === 404 && showError();
+      clearValue();
+      setIsSubmit(false);
+    }
+  }, [isSubmit]);
 
   return (
     <>
@@ -50,8 +68,8 @@ const NotFound: FC<NotFoundProps> = ({
         />
       ) : (
         <div className="flex flex-col mx-auto w-full items-center justify-center my-16">
-          <img src={src} alt={src.toString()} className="w-1/3 h-1/3" />
-          {children}
+          <img src={src} alt={src.toString()} className="w-1/3 h-1/3 sm:w-3/4" />
+          <p>{children}</p>
         </div>
       )}
     </>

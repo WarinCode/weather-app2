@@ -46,11 +46,11 @@ export interface Response<T = number> {
         gust?: T;
         speed: T;
     };
-    rain?:{
+    rain?: {
         "1h"?: string;
         "3h"?: string;
     }
-    snow?:{
+    snow?: {
         "1h"?: string;
         "3h"?: string;
     }
@@ -107,28 +107,32 @@ export const apiKey = process.env.API_KEY as string;
 
 export interface Cities {
     coord: {
-      lat: number;
-      lon: number;
+        lat: number;
+        lon: number;
     };
     country: string;
     geoname: {
-      cl: string;
-      code: string;
-      parent: number;
+        cl: string;
+        code: string;
+        parent: number;
     };
     id: number;
-    langs: Object[];
+    // langs?: any[];
     name: string;
     stat: {
-      level: number;
-      population: number;
+        level: number;
+        population: number;
     };
-    stations: [
-      {
-        dist: number;
-        id: number;
-        kf: number;
-      }
-    ];
+    // stations: {
+    //     dist: number;
+    //     id: number;
+    //     kf: number;
+    // }[];
     zoom: number;
+}
+
+export type List = {
+    name: string,
+    country: string,
+    id: number,
   }
